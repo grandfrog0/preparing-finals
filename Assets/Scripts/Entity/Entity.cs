@@ -9,6 +9,7 @@ public class Entity : MonoBehaviour
     public float Health { get; private set; }
     public float MaxHealth => maxHealth;
     public float HealthPercent => Health / MaxHealth;
+    public bool IsDead => Health <= 0;
 
     public void TakeDamage(float damage)
     {
