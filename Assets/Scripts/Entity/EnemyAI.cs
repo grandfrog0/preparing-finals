@@ -110,7 +110,7 @@ public class EnemyAI : EntityMovement
 
         switch (state)
         {
-            case EnemyState.Idle:
+            case EnemyState.Idle or EnemyState.Dead:
                 _agent.SetDestination(transform.position);
                 HandleMovement(Vector2.zero);
                 break;
@@ -129,9 +129,6 @@ public class EnemyAI : EntityMovement
                 _agent.SetDestination(transform.position);
                 HandleMovement(Vector2.zero);
                 break;
-
-            case EnemyState.Dead:
-                goto case EnemyState.Idle;
         }
         State = state;
     }

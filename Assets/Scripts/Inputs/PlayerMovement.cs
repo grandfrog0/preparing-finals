@@ -12,6 +12,7 @@ public class PlayerMovement : EntityMovement
     [Header("Jump")]
     [SerializeField] float jumpStrength = 10;
     [SerializeField] LayerMask floorMask;
+    public float JumpStrength => jumpStrength * MovementSpeedMultiplier;
     public bool IsOnFloor => Physics.Raycast(new Ray(transform.position - Vector3.up * transform.localScale.y / 1.8f, Vector3.down), 1, floorMask, QueryTriggerInteraction.Ignore);
     [Header("Look")]
     [SerializeField] Transform cameraTransform;
@@ -46,7 +47,7 @@ public class PlayerMovement : EntityMovement
 
         if (IsOnFloor)
         {
-            _rigidbody.AddForce(Vector3.up * jumpStrength, ForceMode.Impulse);
+            _rigidbody.AddForce(Vector3.up * JumpStrength, ForceMode.Impulse);
             _animator.SetTrigger("OnJump");
         }
     }
@@ -69,6 +70,10 @@ public class PlayerMovement : EntityMovement
         _inputSystem.Player.Jump.performed += TryJump;
 
         _rigidbody = GetComponent<Rigidbody>();
+
+        EntityShooter shooter = GetComponent<EntityShooter>();
+        _inputSystem.Player.Shoot.performed += x => shooter.TryShoot();
+
         base.Awake();
     }
     private void OnEnable() => _inputSystem.Enable();

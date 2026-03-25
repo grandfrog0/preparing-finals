@@ -14,7 +14,8 @@ public class EntityMovement : MonoBehaviour
     protected Vector2 _axis;
     protected bool _isSprinting;
     public bool IsRunning => _axis.y > 0 && _isSprinting;
-    public float MovementSpeed => IsRunning ? runSpeed : walkSpeed;
+    public float MovementSpeed => MovementSpeedMultiplier * (IsRunning ? runSpeed : walkSpeed);
+    public float MovementSpeedMultiplier { get; set; } = 1;
 
     protected virtual void HandleMovement(Vector2 axis)
     {
