@@ -6,7 +6,12 @@ public class InventoryContainer : MonoBehaviour
     private EntityMovement _movement;
     private EntityShooter _shooter;
 
-    public Inventory Inventory = new();
+    public Inventory Inventory { get; private set; }
+
+    public void InitInventory(Inventory inventory)
+    {
+        Inventory = inventory;
+    }
 
     public void UseItem(Item item)
     {
@@ -43,5 +48,13 @@ public class InventoryContainer : MonoBehaviour
         _entity = GetComponent<Entity>();
         _movement = GetComponent<EntityMovement>();
         _shooter = GetComponent<EntityShooter>();
+    }
+
+    private void Awake()
+    {
+        if (Inventory == null)
+        {
+            InitInventory(new Inventory());
+        }
     }
 }

@@ -1,25 +1,27 @@
-using NUnit.Framework;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class InventoryViewer : MonoBehaviour
 {
+    public static Inventory CurrentInventory { get; private set; }
+
     [SerializeField] InventoryContainer inventoryContainer;
-    private Inventory _currentInventory;
 
     [SerializeField] ItemView itemViewPrefab;
     [SerializeField] Transform itemViewParent;
 
-    private void Awake()
+    private void Start()
     {
-        _currentInventory = inventoryContainer.Inventory;
-        _currentInventory.OnRefresh += Refresh;
+        CurrentInventory = inventoryContainer.Inventory;
+        Refresh();
+        CurrentInventory.OnRefresh += Refresh;
     }
 
     private void Refresh()
     {
         Clear();
 
-        foreach (Item item in _currentInventory)
+        foreach (Item item in CurrentInventory)
         {
             ItemView view = Instantiate(itemViewPrefab, itemViewParent);
 

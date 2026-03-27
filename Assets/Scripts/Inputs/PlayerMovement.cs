@@ -14,11 +14,15 @@ public class PlayerMovement : EntityMovement
     [SerializeField] LayerMask floorMask;
     public float JumpStrength => jumpStrength * MovementSpeedMultiplier;
     public bool IsOnFloor => Physics.Raycast(new Ray(transform.position - Vector3.up * transform.localScale.y / 1.8f, Vector3.down), 1, floorMask, QueryTriggerInteraction.Ignore);
+    
     [Header("Look")]
     [SerializeField] Transform cameraTransform;
     [SerializeField] float scrollSensitivity = 20;
     [SerializeField] float lookSpeed = 5;
     private Vector2 _camRot;
+
+    [Header("Misc")]
+    [SerializeField] PlayerInventory inventoryConfig;
 
     protected override void HandleMovement(Vector2 axis)
     {
@@ -75,6 +79,11 @@ public class PlayerMovement : EntityMovement
         _inputSystem.Player.Shoot.performed += x => shooter.TryShoot();
 
         base.Awake();
+    }
+    private void Start()
+    {
+        InventoryContainer container = GetComponent<InventoryContainer>();
+        container.InitInventory(inventoryConfig.Inventory);
     }
     private void OnEnable() => _inputSystem.Enable();
     private void OnDisable() => _inputSystem.Disable();

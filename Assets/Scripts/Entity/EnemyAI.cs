@@ -123,6 +123,7 @@ public class EnemyAI : EntityMovement
             case EnemyState.Patrol:
                 _patrolStart = transform.position;
                 _patrolTimeLeft = Random.Range(patrolTime.x, patrolTime.y);
+                HandleMovement(Vector2.zero);
                 break;
 
             case EnemyState.Attack:
